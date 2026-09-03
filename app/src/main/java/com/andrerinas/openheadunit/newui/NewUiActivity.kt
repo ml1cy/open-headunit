@@ -27,10 +27,15 @@ import com.andrerinas.openheadunit.newui.components.StatusBarInfo
 import com.andrerinas.openheadunit.newui.icons.HuIcons
 import com.andrerinas.openheadunit.newui.screens.AutoScreen
 import com.andrerinas.openheadunit.newui.screens.AutoViewModel
+import com.andrerinas.openheadunit.newui.screens.CameraScreen
 import com.andrerinas.openheadunit.newui.screens.ComingSoonScreen
 import com.andrerinas.openheadunit.newui.screens.HomeActions
 import com.andrerinas.openheadunit.newui.screens.HomeScreen
 import com.andrerinas.openheadunit.newui.screens.HomeViewModel
+import com.andrerinas.openheadunit.newui.screens.NavigationScreen
+import com.andrerinas.openheadunit.newui.screens.PhoneScreen
+import com.andrerinas.openheadunit.newui.screens.ProfilesScreen
+import com.andrerinas.openheadunit.newui.screens.VehicleScreen
 import com.andrerinas.openheadunit.newui.settings.SystemToggles
 import com.andrerinas.openheadunit.newui.state.HuScreen
 import com.andrerinas.openheadunit.newui.state.SettingsTab
@@ -159,7 +164,13 @@ private fun ScreenHost(container: HuContainer, screen: HuScreen, shellViewModel:
             AutoScreen(viewModel = autoViewModel)
         }
 
-        else -> {
+        HuScreen.VEHICLE -> VehicleScreen(container = container)
+        HuScreen.PHONE -> PhoneScreen(container = container)
+        HuScreen.NAV -> NavigationScreen(container = container)
+        HuScreen.PROFILES -> ProfilesScreen(container = container)
+        HuScreen.CAMERA -> CameraScreen()
+
+        HuScreen.RADIO, HuScreen.SETTINGS -> {
             ComingSoonScreen(
                 icon = HuIcons.settingsGear,
                 title = screen.name.lowercase().replaceFirstChar { it.uppercase() },

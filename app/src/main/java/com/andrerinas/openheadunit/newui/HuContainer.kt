@@ -7,7 +7,6 @@ import com.andrerinas.openheadunit.newui.media.DefaultNowPlayingRepository
 import com.andrerinas.openheadunit.newui.media.NowPlayingRepository
 import com.andrerinas.openheadunit.newui.navigation.NavRepository
 import com.andrerinas.openheadunit.newui.profiles.ProfileRepository
-import com.andrerinas.openheadunit.newui.profiles.SingleProfileRepository
 import com.andrerinas.openheadunit.newui.radio.RadioRepository
 import com.andrerinas.openheadunit.newui.telephony.PhoneRepository
 import com.andrerinas.openheadunit.newui.vehicle.VehicleRepository
@@ -28,14 +27,16 @@ class HuContainer private constructor(private val appContext: Context) {
 
     val nowPlayingRepository: NowPlayingRepository by lazy { DefaultNowPlayingRepository() }
 
-    val profileRepository: ProfileRepository by lazy { SingleProfileRepository() }
+    val profileRepository: ProfileRepository by lazy {
+        com.andrerinas.openheadunit.newui.profiles.RoomProfileRepository(appContext)
+    }
 
     val radioRepository: RadioRepository by lazy {
         com.andrerinas.openheadunit.newui.radio.SerialRadioRepository(appContext, nowPlayingRepository)
     }
 
     val vehicleRepository: VehicleRepository by lazy {
-        com.andrerinas.openheadunit.newui.vehicle.Elm327VehicleRepository(appContext)
+        com.andrerinas.openheadunit.newui.vehicle.Elm327VehicleRepository(appContext).also { it.connect() }
     }
 
     val phoneRepository: PhoneRepository by lazy {
