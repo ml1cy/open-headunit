@@ -24,11 +24,9 @@ import com.andrerinas.openheadunit.newui.components.QuickSettingsData
 import com.andrerinas.openheadunit.newui.components.QuickSettingsDrawer
 import com.andrerinas.openheadunit.newui.components.StatusBar
 import com.andrerinas.openheadunit.newui.components.StatusBarInfo
-import com.andrerinas.openheadunit.newui.icons.HuIcons
 import com.andrerinas.openheadunit.newui.screens.AutoScreen
 import com.andrerinas.openheadunit.newui.screens.AutoViewModel
 import com.andrerinas.openheadunit.newui.screens.CameraScreen
-import com.andrerinas.openheadunit.newui.screens.ComingSoonScreen
 import com.andrerinas.openheadunit.newui.screens.HomeActions
 import com.andrerinas.openheadunit.newui.screens.HomeScreen
 import com.andrerinas.openheadunit.newui.screens.HomeViewModel
@@ -36,6 +34,7 @@ import com.andrerinas.openheadunit.newui.screens.NavigationScreen
 import com.andrerinas.openheadunit.newui.screens.PhoneScreen
 import com.andrerinas.openheadunit.newui.screens.ProfilesScreen
 import com.andrerinas.openheadunit.newui.screens.RadioScreen
+import com.andrerinas.openheadunit.newui.screens.SettingsScreen
 import com.andrerinas.openheadunit.newui.screens.VehicleScreen
 import com.andrerinas.openheadunit.newui.settings.SystemToggles
 import com.andrerinas.openheadunit.newui.state.HuScreen
@@ -171,13 +170,6 @@ private fun ScreenHost(container: HuContainer, screen: HuScreen, shellViewModel:
         HuScreen.PROFILES -> ProfilesScreen(container = container)
         HuScreen.CAMERA -> CameraScreen()
         HuScreen.RADIO -> RadioScreen(container = container)
-
-        HuScreen.SETTINGS -> {
-            ComingSoonScreen(
-                icon = HuIcons.settingsGear,
-                title = screen.name.lowercase().replaceFirstChar { it.uppercase() },
-                note = "This screen is being built out in a later step.",
-            )
-        }
+        HuScreen.SETTINGS -> SettingsScreen(container = container, shellViewModel = shellViewModel)
     }
 }
