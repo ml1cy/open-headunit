@@ -35,6 +35,7 @@ import com.andrerinas.openheadunit.newui.screens.HomeViewModel
 import com.andrerinas.openheadunit.newui.screens.NavigationScreen
 import com.andrerinas.openheadunit.newui.screens.PhoneScreen
 import com.andrerinas.openheadunit.newui.screens.ProfilesScreen
+import com.andrerinas.openheadunit.newui.screens.RadioScreen
 import com.andrerinas.openheadunit.newui.screens.VehicleScreen
 import com.andrerinas.openheadunit.newui.settings.SystemToggles
 import com.andrerinas.openheadunit.newui.state.HuScreen
@@ -169,8 +170,9 @@ private fun ScreenHost(container: HuContainer, screen: HuScreen, shellViewModel:
         HuScreen.NAV -> NavigationScreen(container = container)
         HuScreen.PROFILES -> ProfilesScreen(container = container)
         HuScreen.CAMERA -> CameraScreen()
+        HuScreen.RADIO -> RadioScreen(container = container)
 
-        HuScreen.RADIO, HuScreen.SETTINGS -> {
+        HuScreen.SETTINGS -> {
             ComingSoonScreen(
                 icon = HuIcons.settingsGear,
                 title = screen.name.lowercase().replaceFirstChar { it.uppercase() },
