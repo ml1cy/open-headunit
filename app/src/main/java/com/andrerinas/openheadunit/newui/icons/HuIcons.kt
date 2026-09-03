@@ -224,4 +224,14 @@ object HuIcons {
     val info: ImageVector by lazy {
         buildIcon(strokePaths = listOf(circlePath(12f, 12f, 8.5f), "M12 11v5.5M12 8v.1"), strokeWidth = 1.8f)
     }
+
+    val brightness: ImageVector by lazy {
+        buildIcon(
+            strokePaths = listOf(
+                circlePath(12f, 12f, 4.2f),
+                "M12 2.4v2.4M12 19.2v2.4M4.4 4.4l1.7 1.7M17.9 17.9l1.7 1.7M2 12h2.4M19.6 12H22M4.4 19.6l1.7-1.7M17.9 6.1l1.7-1.7",
+            ),
+            strokeWidth = 1.8f,
+        )
+    }
 }

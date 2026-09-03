@@ -115,6 +115,7 @@ class HomeFragment : Fragment() {
         }
 
         setupListeners()
+        setupNewUiEntryPoint(view)
         updateProjectionButtonText()
         updateButtonStyle()
         updateButtonScale()
@@ -335,6 +336,17 @@ class HomeFragment : Fragment() {
         val density = resources.displayMetrics.density
         val isPortrait = resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT
         HomeUiHelper.applyButtonScale(v, appSettings.homeButtonScalePercent, isPortrait, density)
+    }
+
+    /**
+     * Additive entry point for the new Compose UI preview (openhead-UI v4 design). Fully
+     * isolated from the rest of this fragment's setup so it can't interact with the existing
+     * button chain, connection state, or lifecycle wiring below.
+     */
+    private fun setupNewUiEntryPoint(view: View) {
+        view.findViewById<Button>(R.id.try_new_ui_button)?.setOnClickListener {
+            startActivity(Intent(requireContext(), com.andrerinas.openheadunit.newui.NewUiActivity::class.java))
+        }
     }
 
     private fun setupListeners() {
