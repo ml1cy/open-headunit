@@ -34,6 +34,9 @@
     <uses-feature
         android:name="android.hardware.bluetooth"
         android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera.any"
+        android:required="false" />
 
     <permission
         android:name="com.andrerinas.openheadunit.permission.NAVIGATION_UPDATE"
@@ -87,6 +90,12 @@
         android:name="android.permission.READ_LOGS"
         android:maxSdkVersion="32"
         tools:ignore="ProtectedPermissions" />
+
+    <!-- New head unit UI (Compose): reverse/dash camera, dialer, call log, nav hand-off -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.READ_CALL_LOG" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <application
         android:name=".App"
@@ -202,6 +211,15 @@
             </intent-filter>
         </activity>
 
+        <!-- New head unit UI (Compose), reached only from an in-app "Try the new UI" entry
+             point (MainActivity/SettingsActivity) — not the launcher, not exported. -->
+        <activity
+            android:name=".newui.NewUiActivity"
+            android:configChanges="keyboardHidden|uiMode|screenSize|orientation"
+            android:exported="false"
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme" />
+
         <activity
             android:name=".main.SettingsActivity"
             android:label="@string/settings"
@@ -225,6 +243,20 @@
             </intent-filter>
         </service>
         <service android:name=".location.GpsLocationService" />
+
+        <!-- New head unit UI: reads the active navigation app's ongoing turn-by-turn
+             notification to populate the floating manoeuvre card on the Navigation screen.
+             Requires the user to grant notification access in system settings; NavHandoff
+             opens that screen directly since it can't be requested as a runtime permission. -->
+        <service
+            android:name=".newui.navigation.NavNotificationListenerService"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
+            <intent-filter>
+                <action android:name="android.service.notification.NotificationListenerService" />
+            </intent-filter>
+        </service>
 
         <!-- AndroidX MediaButtonReceiver: Routes MEDIA_BUTTON intents to AapService
              on Android 8+ where implicit broadcasts to manifest-registered receivers

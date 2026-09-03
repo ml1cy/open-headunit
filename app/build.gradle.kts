@@ -17,6 +17,12 @@ android {
     buildFeatures {
         buildConfig = true
         aidl = true // needed for shizuku
+        compose = true
+    }
+
+    composeOptions {
+        // Paired with Kotlin 1.9.22 per the Compose-Kotlin compiler compatibility map.
+        kotlinCompilerExtensionVersion = "1.5.8"
     }
 
     externalNativeBuild {
@@ -100,7 +106,10 @@ android {
         }
         create("github") {
             dimension = "distribution"
-            // Default minSdk 16 from defaultConfig is used
+            // Bumped from the default minSdk 16 to 21: Jetpack Compose (added for the new
+            // head unit UI) ships manifests that declare minSdk 21, and AGP's manifest merger
+            // fails the build for any variant below that.
+            minSdk = 21
         }
     }
 
@@ -260,4 +269,35 @@ dependencies {
     // Shizuku for root / shell access
     implementation("dev.rikka.shizuku:api:13.1.5")
     implementation("com.github.topjohnwu.libsu:core:6.0.0")
+
+    // --- New head unit UI (Compose) ---
+    val composeBom = platform("androidx.compose:compose-bom:2024.02.00")
+    implementation(composeBom)
+    androidTestImplementation(composeBom)
+    implementation("androidx.compose.ui:ui")
+    implementation("androidx.compose.ui:ui-graphics")
+    implementation("androidx.compose.ui:ui-tooling-preview")
+    implementation("androidx.compose.material3:material3")
+    implementation("androidx.activity:activity-compose:1.8.2")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.6.2")
+    debugImplementation("androidx.compose.ui:ui-tooling")
+
+    // Internet radio playback (real streaming backend, no hardware required)
+    implementation("androidx.media3:media3-exoplayer:1.2.1")
+    implementation("androidx.media3:media3-exoplayer-hls:1.2.1")
+    implementation("androidx.media3:media3-session:1.2.1")
+    implementation("androidx.media3:media3-common:1.2.1")
+
+    // Driver profile persistence
+    implementation("androidx.room:room-runtime:2.6.1")
+    implementation("androidx.room:room-ktx:2.6.1")
+    kapt("androidx.room:room-compiler:2.6.1")
+
+    // Reverse/dash camera: CameraX, used against an EXTERNAL (USB UVC) lens where the
+    // device's camera HAL exposes one; see newui/camera/CameraBackend.kt for details.
+    implementation("androidx.camera:camera-core:1.3.1")
+    implementation("androidx.camera:camera-camera2:1.3.1")
+    implementation("androidx.camera:camera-lifecycle:1.3.1")
+    implementation("androidx.camera:camera-view:1.3.1")
 }
